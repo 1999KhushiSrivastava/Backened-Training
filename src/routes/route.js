@@ -35,4 +35,72 @@ router.get('/student-details/:name', function(req, res){
     res.send('Dummy response')
 })
 
+// Problem 1
+// let movies =['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
+// router.get("/movies", function(req,res){
+
+// res. send(movies)
+// })
+
+
+
+    
+    
+ // problem 2       
+    
+// router.get('/movies/:indexNumber',function(req,res){
+//     let requestParams = req.params.indexNumber
+//     res.send(movies[requestParams])
+// })
+
+// Problem 3
+// router.get('/movies/:indexNumber',function(req,res){
+//     const movies=['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins'];
+//     let reqParams=req.params;
+//     let index=reqParams.indexNumber;
+//     if(index>=0 && index<=movies.length){
+//         res.send(movies[index])
+//     }
+//     else{
+//         res.send("not index")
+//     }
+// })
+
+// problem 4
+
+router.get("/GET/films/:filmId", function (req, res) {
+    let films = [
+      {
+        id: 1,
+        name: "The Shining",
+      },
+      {
+        id: 2,
+        name: "Incendies",
+      },
+      {
+        id: 3,
+        name: "Rang de Basanti",
+      },
+      {
+        id: 4,
+        name: "Finding Nemo",
+      },
+    ];
+  
+    let requestParams = req.params;
+    const filmid = parseInt(requestParams.filmId);
+    const fimlLength = films.length;
+  
+    let result = "";
+    for (let i = 0; i < fimlLength; i++) {
+      if (filmid === films[i].id) {
+        result = films[i];
+        break;
+      } else {
+        result = "No movie exists with this id";
+      }
+    }
+    res.send(result);
+  });
 module.exports = router;
