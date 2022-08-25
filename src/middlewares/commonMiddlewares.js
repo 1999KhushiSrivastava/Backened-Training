@@ -19,8 +19,30 @@ const mid4= function ( req, res, next) {
     console.log("Hi I am a middleware named Mid4")
     next()
 }
+// const mid5= function(req,res,next){
+//     // const time = moment().format("YYY-MM-DD hh:mm")
+//     // const ip = req.socket.localAddress
+//     // const path = req.url
+//     // console.log("Done")
+//     // console.log(time,ip,path)
+    
+//     // next(); 
+//     let loggedIn = true;
+//     if(loggedIn==true){
+//         const time = moment().format("YYY-MM-DD hh:mm")
+//     const ip = req.socket.localAddress
+//     const path = req.url
+//     console.log("Done")
+//     console.log(time,ip,path)
 
+//     next(); 
+//     } 
+//     else{
+//         res.send("login first")
+//     }
+// }
 module.exports.mid1= mid1
 module.exports.mid2= mid2
 module.exports.mid3= mid3
 module.exports.mid4= mid4
+//module.exports.mid5= mid5

@@ -2,24 +2,30 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const route = require('./routes/route.js');
 const { default: mongoose } = require('mongoose');
+const moment = require('moment');
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-mongoose.connect("mongodb+srv://functionup-cohort:G0Loxqc9wFEGyEeJ@cluster0.rzotr.mongodb.net/Pritesh8769811-DB?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://khushi123456789:khushi123456789@cluster0.xcf6vy2.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true
 })
 .then( () => console.log("MongoDb is connected"))
 .catch ( err => console.log(err) )
 
-app.use (
-    function (req, res, next) {
-        console.log ("inside GLOBAL MW");
-        next();
-  }
-  );
+app.use(
+    function(req,res,next){
+        const time = moment().format("YYY-MM-DD hh:mm")
+        const ip = req.socket.localAddress
+        const path = req.url
+        console.log("Done")
+        console.log(time,ip,path)
+        res.send("testing done")
+        //  next();
+    }
+);
 
 app.use('/', route);
 
