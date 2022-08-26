@@ -3,20 +3,21 @@
 const productModel = require("../models/productModel")
 const UserModel = require("../models/newUserModel")
 const orderModel = require("../models/orderModel")
-
+//--------------------------------------------------1----------------------------------------------//
 const product = async function(req,res){
     let data = req.body
     let savedData= await productModel.create(data)
     res.send({msg: savedData})
 }
 module.exports.product=product
+//-----------------------------------2-----------------------------------------------------------//
 const newUser = async function(req,res){
     let data = req.body
     let savedData= await UserModel.create(data)
     res.send({msg:savedData})
 }
 module.exports.newUser=newUser
-// ---------------------------3-----------------------------------------//
+// ---------------------------3-----------------------------------------------------------------//
 const order = async function(req,res){
     let data = req.body
     const {userId,productId} = data   //destructuring
@@ -28,7 +29,7 @@ const order = async function(req,res){
     if(!productData){
         return res.send({msg:"product does not exists in this id"})
     }
-    data.isFreeAppUser=req.isFreeAppUser
+    data.isFreeAppUser=req.isFreeAppUser//------------------------4----------------------------------//
     if(data.isFreeAppUser==true){
         data.amount=0
     }
