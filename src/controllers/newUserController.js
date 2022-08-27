@@ -30,7 +30,7 @@ const order = async function(req,res){
         return res.send({msg:"product does not exists in this id"})
     }
     data.isFreeAppUser=req.isFreeAppUser//------------------------4----------------------------------//
-    if(data.isFreeAppUser==true){
+    if(data.isFreeAppUser=="true"){
         data.amount=0
     }
     else{
