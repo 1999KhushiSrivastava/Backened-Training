@@ -58,12 +58,8 @@ const getUserData = async function (req, res) {
   // if (!decodedToken)
   //   return res.send({ status: false, msg: "token is invalid" });
 
-  let userId = req.params.userId;
-  let userDetails = await userModel.findById(userId);
-  if (!userDetails)
-    return res.send({ status: false, msg: "No such user exists" });
-
-  res.send({ status: true, data: userDetails });
+  let userDetails= await userModel.findById(req.userId)
+  return res.send({ status: true, data: userDetails });
   // Note: Try to see what happens if we change the secret while decoding the token
 };
 
@@ -73,35 +69,23 @@ const updateUser = async function (req, res) {
   // Check if the token present is a valid token
   // Return a different error message in both these cases
 
-  let userId = req.params.userId;
-  let user = await userModel.findById(userId);
-  //Return an error if no user with the given id exists in the db
-  if (!user) {
-    return res.send("No such user exists");
-  }
+  
 
   let userData = req.body;
-  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData,{new:true});
-  res.send({ status: updatedUser, data: updatedUser });
+  let updatedUser = await userModel.findOneAndUpdate({ _id: req.userId}, userData,{new:true});
+  return res.send({ status: updatedUser, data: updatedUser });
 };
 
 let deleteUser= async function(req, res){
 
-  let userId = req.params.userId;
-let user = await userModel.findById(userId);
-  if(!user){
-    return res.send("User doesnot exists !")
-  }
-
+  
   let deletedUser = await userModel.findOneAndUpdate(
-    {_id: userId}, //condition
+    {_id: req.userId}, //condition
     {$set:{isDeleted:true}},{new:true})//update,);
     
-     token = req.headers["x-auth-token"]
-  if(!token){
-    return res.send({status: false, msg: "Please enter token"})
-    }
-    res.send({status :deletedUser, data: deletedUser })
+     
+    return res.send({status :deletedUser, data: deletedUser })
+
   }
 
 module.exports.createUser = createUser;
