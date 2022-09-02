@@ -62,7 +62,7 @@ let getSortedCities = async function (req, res) {
           //  let city= result.data.city
             console.log(result.data.main.temp)
            // obj.temp = result.data.main.temp
-            cityObjArray.push({"temp":name,"temp":data,"city":name,"city":data})
+            cityObjArray.push({"city":name,"temp":data})
            
         }
             cityObjArray.sort((a, b) => a.temp - b.temp )
