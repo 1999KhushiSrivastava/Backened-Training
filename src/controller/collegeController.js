@@ -13,33 +13,38 @@ const isValidRequest = function (object) {
 const createcollage = async function (req, res) {
     try {
         const nameregex = /^[a-zA-Z ]*$/;
+        const logoLinkregex= /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/
+
+      
+      
         const reqquery = req.query
-        const collage = req.body
-        if (!isValidRequest(collage)) return res.status(400).send({ status: false, message: "body required" })
+        const college = req.body
+        if (!isValidRequest(college)) return res.status(400).send({ status: false, message: "body required" })
         if (isValidRequest(reqquery)) return res.status(400).send({ status: false, message: "invalid request" })
 
-        if (!isValid(collage.name)) return res.status(400).send({ status: false, message: "name required" })
+        if (!isValid(college.name)) return res.status(400).send({ status: false, message: "name required" })
+      
+        if (!college.name.match(nameregex)) return res.status(400).send({ status: false, message: "name is not valid format" })
+        const isDuplicate = await collegeModel.findOne({name:college.name})
+        if(isDuplicate){
+          return res.status(409).send({status:false,message:"this college name already exists"})
+        }
+        if (!isValid(college.fullName)) return res.status(400).send({ status: false, message: "fullName required" })
+        if (!college.fullName.match(nameregex)) return res.status(400).send({ status: false, message: "fullName must in valid format" })
 
-        if (!collage.name.match(nameregex)) return res.status(400).send({ status: false, message: "name is not valid format" })
+        if (!isValid(college.logoLink)) return res.status(400).send({ status: false, message: "logolink is required" })
+    
+       
+        if (!logoLink.match(logoLinkregex))  
+            return res.status(400).send({ status: false, message: "Please enter a valid URL. " })
+        let collegecreate = await collegeModel.create(college)
 
-        if (!isValid(collage.fullName)) return res.status(400).send({ status: false, message: "fullName required" })
-        if (!collage.fullName.match(nameregex)) return res.status(400).send({ status: false, message: "fullName must in valid format" })
-
-        if (!isValid(collage.logoLink)) return res.status(400).send({ status: false, message: "logolink is required" })
-
-        if (!validator.isURL(collage.logoLink)) { return res.status(400).send({ status: false, msg: "logoLink should be valid URL" }) }
-
-        let collagecreate = await collegeModel.create(collage)
-
-        res.status(201).send({ status: true, message: "collage created successfully", data: collagecreate })
+        res.status(201).send({ status: true, message: "collage created successfully", data: collegecreate })
 
     } catch (err) {
         res.status(500).send({ status: false, error: err.message })
     }
 }
-
-
-
 const getcollegeDetails = async function (req, res) {
     try {
       let reqquery = req.query;
@@ -60,7 +65,7 @@ const getcollegeDetails = async function (req, res) {
         name: collegeName,
         isDeleted: false,
       });
-  
+
       if (!college)
         return res
           .status(404)
@@ -71,7 +76,7 @@ const getcollegeDetails = async function (req, res) {
         isDeleted: false,
       });
   
-      result.name = college.name;
+      result.name = college.name;         // keyvalue pair
       result.fullName = college.fullName;
       result.logoLink = college.logoLink;
       result.interns = interns;
